@@ -26,11 +26,41 @@ class PostControllerTest {
     @Test
     @DisplayName("/posts 요청시 Hello World를 출력한다.")
     void indexTest() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
+        //  글 제목
+        // 글 내용
+        // 사용자
+            // id
+            // name
+            // level
+        /** json 형식으로 보낼 경우 user 키의 value에 대해 key value를 가진 object를 넣는 등 계층 구조의 데이터를 보낼 때 효과적입니다. 반면 기존의 key=value를 &로 이어서 보내는 application/x-www-form-urlencoded 형식은 데이터를 표현하는 데에 한계가 있습니다.
+         * {
+         *  "title": "xx",
+         *  "content": "xx",
+         *  "user": {
+         *          "id":"xx",
+         *          "name": "xx",
+         *          "level": "xx"
+         *      }
+         * }
+         */
+
         //expected
         mockMvc.perform(post("/posts")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("title", "글 제목 테스트")
-                        .param("content", "글 내용 테스트"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\": \"제목입니다.\", \"content\": \"내용입니다.\"}"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Hello World"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    @DisplayName("/posts 요청 시 title값은 필수입니다.")
+    void postTest() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
+
+        //expected
+        mockMvc.perform(post("/posts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\": \"\", \"content\": \"내용입니다.\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Hello World"))
                 .andDo(MockMvcResultHandlers.print());
