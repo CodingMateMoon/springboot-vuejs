@@ -16,12 +16,4 @@ public class PostCreate {
 
     @NotBlank
     public String content;
-
-    /*@Override
-    public String toString() {
-        return "PostCreate{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }*/
 }
