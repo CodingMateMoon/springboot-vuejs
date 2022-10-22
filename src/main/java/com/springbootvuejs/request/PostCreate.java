@@ -11,9 +11,9 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class PostCreate {
 
-    @NotBlank // 빈값이 들어오면 오류를 발생시킵니다
+    @NotBlank(message = "타이틀을 입력해주세요")
     public String title;
 
-    @NotBlank
+    @NotBlank(message = "컨텐트를 입력해주세요")
     public String content;
 }
