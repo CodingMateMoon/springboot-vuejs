@@ -22,13 +22,26 @@ public class PostController {
     // POST Method
 
     @PostMapping("/posts")
-    public Map<String, String> post(@RequestBody @Valid PostCreate params, BindingResult result) throws Exception {
+    public Map<String, String> post(@RequestBody @Valid PostCreate params) throws Exception {
         // 데이터를 검증하는 이유
         // 1. client 개발자가 깜박할 수 있습니다. 실수로 값을 안보낼 수 있습니다.
         // 2. client bug로 값이 누락될 수 있습니다.
         // 3. 외부에 나쁜 사람이 값을 임의로 조작해서 보낼 수 있습니다.
         // 4. DB에 값을 저장할 때 의도치 않은 오류가 발생할 수 있습니다.
         // 5. 서버 개발자의 편안함을 위해서 (검증이 되었기 때문에 안도)
+
+        /*
+        1. 매번 메서드마다 값을 검증해야 한다
+         > 개발자가 까먹을 수 있습니다
+         > 검증 부분에서 버그가 발생할 여지가 높습니다
+         > 지겹습니다. (간지X)
+
+        2. 응답값에 HashMap-> 응답 클래스를 만들어주는게 좋습니다
+        3. 여러 개의 에러 처리가 힘듭니다.
+        4. 세 번 이상의 반복적인 작업은 피해야합니다. (자동화 고려)
+         ** 코드 && 개발에 관한 모든것
+
+
         if (result.hasErrors()) {
             List<FieldError> fieldErrors = result.getFieldErrors();
             FieldError firstFieldError = fieldErrors.get(0);
@@ -39,6 +52,8 @@ public class PostController {
             error.put(fieldName, errorMessage);
             return error;
         }
+
+         */
         return Map.of();
 
         //log.info("params{}", params.toString());
@@ -58,9 +73,5 @@ public class PostController {
         String content = params.getContent();
         return "Hello World";
          */
-
-
-
-
     }
 }
