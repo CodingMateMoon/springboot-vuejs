@@ -22,7 +22,7 @@ public class ErrorResponse {
     private final String code;
     private final String message;
 
-    private Map<String, String> validation = new HashMap<>();
+    private final Map<String, String> validation = new HashMap<>();
 
     public void addValidation(String fieldName, String errorMessage) {
         this.validation.put(fieldName, errorMessage);

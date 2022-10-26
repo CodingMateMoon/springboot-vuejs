@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
 @ControllerAdvice
 public class ExceptionController {
@@ -21,10 +18,6 @@ public class ExceptionController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     public ErrorResponse invalidRequestHandler(MethodArgumentNotValidException e) {
-
-//            FieldError fieldError = e.getFieldError();
-//            String field = fieldError.getField();
-//            String message = fieldError.getDefaultMessage();
 
         ErrorResponse response = new ErrorResponse("400", "잘못된 요청입니다.");
         for (FieldError fieldError : e.getFieldErrors()) {

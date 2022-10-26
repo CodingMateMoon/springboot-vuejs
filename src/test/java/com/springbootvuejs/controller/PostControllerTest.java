@@ -53,21 +53,8 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("/posts 요청 시 title값은 필수입니다.")
-    void postTest() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
-
-        //expected
-        mockMvc.perform(post("/posts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"title\": null, \"content\": \"내용입니다.\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("타이틀을 입력해주세요"))
-                .andDo(MockMvcResultHandlers.print());
-    }
-
-    @Test
-    @DisplayName("400 Error 잘못된 요청입니다.")
-    void badRequestTest() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
+    @DisplayName("400 Error 잘못된 요청입니다. /posts 요청 시 title값은 필수입니다.")
+    void requestWithoutTitleTest() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
 
         //expected
         mockMvc.perform(post("/posts")
@@ -76,6 +63,7 @@ class PostControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
+                .andExpect(jsonPath("$.validation.title").value("타이틀을 입력해주세요."))
                 .andDo(MockMvcResultHandlers.print());
     }
 }
