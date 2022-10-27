@@ -1,6 +1,8 @@
 package com.springbootvuejs.controller;
 
 import com.springbootvuejs.request.PostCreate;
+import com.springbootvuejs.service.PostService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -14,7 +16,11 @@ import java.util.Map;
 // RestController를 활용하면 @Controller, @ResponseBody 등 Controller보다 좀 더 편하게 web 관련처리를 할 수 있습니다.
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class PostController {
+
+
+    private final PostService postService;
 
     // Http Method
     // GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD, TRACE, CONNECT
@@ -22,7 +28,7 @@ public class PostController {
     // POST Method
 
     @PostMapping("/posts")
-    public Map<String, String> post(@RequestBody @Valid PostCreate params) throws Exception {
+    public Map<String, String> post(@RequestBody @Valid PostCreate request) throws Exception {
         // 데이터를 검증하는 이유
         // 1. client 개발자가 깜박할 수 있습니다. 실수로 값을 안보낼 수 있습니다.
         // 2. client bug로 값이 누락될 수 있습니다.
@@ -54,6 +60,7 @@ public class PostController {
         }
 
          */
+        postService.write(request);
         return Map.of();
 
         //log.info("params{}", params.toString());
