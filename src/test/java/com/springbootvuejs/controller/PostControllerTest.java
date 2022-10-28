@@ -1,9 +1,13 @@
 package com.springbootvuejs.controller;
 
+import com.springbootvuejs.repository.PostRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -14,13 +18,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest
+//@WebMvcTest
+@AutoConfigureMockMvc // @WebMvcTest을 구성하는 Annotation 중 하나
+@SpringBootTest // 웹 전반적인 테스트
 class PostControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private PostRepository postRepository;
 
     @Test
     @DisplayName("/posts 요청시 Hello World를 출력한다.")
@@ -49,7 +59,7 @@ class PostControllerTest {
                         .content("{\"title\": \"제목입니다.\", \"content\": \"내용입니다.\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("{}"))
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
     @Test
@@ -64,6 +74,21 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
                 .andExpect(jsonPath("$.validation.title").value("타이틀을 입력해주세요."))
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("/posts 요청시 DB에 값을 저장합니다.")
+    void savePostTest() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
+
+        //when
+        mockMvc.perform(post("/posts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\": \"제목입니다.\", \"content\": \"내용입니다.\"}"))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        //then
+        assertEquals(1L,postRepository.count());
     }
 }
