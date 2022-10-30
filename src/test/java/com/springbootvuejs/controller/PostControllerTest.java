@@ -1,7 +1,9 @@
 package com.springbootvuejs.controller;
 
+import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.repository.PostRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,11 @@ class PostControllerTest {
 
     @Autowired
     private PostRepository postRepository;
+
+    @BeforeEach
+    void clean() {
+        postRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("/posts 요청시 Hello World를 출력한다.")
@@ -90,5 +97,9 @@ class PostControllerTest {
 
         //then
         assertEquals(1L,postRepository.count());
+
+        Post post = postRepository.findAll().get(0);
+        assertEquals("제목입니다.", post.getTitle());
+        assertEquals("내용입니다.", post.getContent());
     }
 }
