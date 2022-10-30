@@ -1,7 +1,9 @@
 package com.springbootvuejs.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.repository.PostRepository;
+import com.springbootvuejs.request.PostCreate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.http.MediaType.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -59,11 +62,20 @@ class PostControllerTest {
          *      }
          * }
          */
+        
+        //given
+        PostCreate request = new PostCreate("제목입니다.", "내용입니다.");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(request);
+
+        System.out.println(json);
 
         //expected
         mockMvc.perform(post("/posts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"title\": \"제목입니다.\", \"content\": \"내용입니다.\"}"))
+                        .contentType(APPLICATION_JSON)
+                        .content(json)
+                )
                 .andExpect(status().isOk())
                 .andExpect(content().string("{}"))
                 .andDo(print());
@@ -75,7 +87,7 @@ class PostControllerTest {
 
         //expected
         mockMvc.perform(post("/posts")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("{\"title\": null, \"content\": \"내용입니다.\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
@@ -90,7 +102,7 @@ class PostControllerTest {
 
         //when
         mockMvc.perform(post("/posts")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("{\"title\": \"제목입니다.\", \"content\": \"내용입니다.\"}"))
                 .andExpect(status().isOk())
                 .andDo(print());
