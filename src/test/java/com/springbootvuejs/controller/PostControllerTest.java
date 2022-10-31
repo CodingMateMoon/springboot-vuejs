@@ -64,7 +64,12 @@ class PostControllerTest {
          */
         
         //given
-        PostCreate request = new PostCreate("제목입니다.", "내용입니다.");
+//        PostCreate request = new PostCreate("제목입니다.", "내용입니다.");
+
+        PostCreate request = PostCreate.builder()
+                .title("제목입니다.")
+                .content("내용입니다.")
+                .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(request);
