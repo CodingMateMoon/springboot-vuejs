@@ -32,6 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PostControllerTest {
 
     @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -71,7 +74,7 @@ class PostControllerTest {
                 .content("내용입니다.")
                 .build();
 
-        ObjectMapper objectMapper = new ObjectMapper();
+
         String json = objectMapper.writeValueAsString(request);
 
         System.out.println(json);
@@ -89,11 +92,17 @@ class PostControllerTest {
     @Test
     @DisplayName("400 Error 잘못된 요청입니다. /posts 요청 시 title값은 필수입니다.")
     void requestWithoutTitleTest() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
+        PostCreate request = PostCreate.builder()
+                .content("내용입니다.")
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
 
         //expected
         mockMvc.perform(post("/posts")
                         .contentType(APPLICATION_JSON)
-                        .content("{\"title\": null, \"content\": \"내용입니다.\"}"))
+                        .content(json)
+                )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
@@ -101,14 +110,22 @@ class PostControllerTest {
                 .andDo(print());
     }
 
+
     @Test
     @DisplayName("/posts 요청시 DB에 값을 저장합니다.")
     void savePostTest() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
+        PostCreate request = PostCreate.builder()
+                .title("제목입니다.")
+                .content("내용입니다.")
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
 
         //when
         mockMvc.perform(post("/posts")
                         .contentType(APPLICATION_JSON)
-                        .content("{\"title\": \"제목입니다.\", \"content\": \"내용입니다.\"}"))
+                        .content(json)
+                )
                 .andExpect(status().isOk())
                 .andDo(print());
 
