@@ -28,7 +28,7 @@ public class PostController {
     // POST Method
 
     @PostMapping("/posts")
-    public Map<String, String> post(@RequestBody @Valid PostCreate request) throws Exception {
+    public Map post(@RequestBody @Valid PostCreate request) throws Exception {
         // 데이터를 검증하는 이유
         // 1. client 개발자가 깜박할 수 있습니다. 실수로 값을 안보낼 수 있습니다.
         // 2. client bug로 값이 누락될 수 있습니다.
@@ -60,8 +60,18 @@ public class PostController {
         }
 
          */
-        postService.write(request);
-        return Map.of();
+
+        // POST -> 200, 201 기본적으로 사용하는데 API를 호출하는 쪽에서 JSON 형태로 내려달라고 요청할 수 있습니다.
+        // Case1. 저장한 데이터 Entity -> response로 응답하기
+        // Case2. 저장한 데이터의 primary_id -> response로 응답하기
+        //        client에서는 post 조회 API를 통해서 작성자 id 데이터를 수신받음
+        // Case3. 응답 필요 업음 -> 클라이언트에서 모든 POST(글) 데이터 context를 잘 관리함
+        // Bad case: 서버에서 -> 반드시 이렇게 할겁니다! fix
+        //  -> 서버에서는 유연하게 대응하는 것이 좋습니다.
+        //  -> 한 번에 일괄적으로 잘 처리되는 케이스가 없습니다 -> 잘 관리하는 형태가 중요합니다.
+        Long postId = postService.write(request);
+        return Map.of("postId", postId);
+//        return Map.of();
 
         //log.info("params{}", params.toString());
 
