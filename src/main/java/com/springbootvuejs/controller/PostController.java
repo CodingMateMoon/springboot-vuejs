@@ -28,7 +28,7 @@ public class PostController {
     // POST Method
 
     @PostMapping("/posts")
-    public Map post(@RequestBody @Valid PostCreate request) throws Exception {
+    public void post(@RequestBody @Valid PostCreate request) throws Exception {
         // 데이터를 검증하는 이유
         // 1. client 개발자가 깜박할 수 있습니다. 실수로 값을 안보낼 수 있습니다.
         // 2. client bug로 값이 누락될 수 있습니다.
@@ -69,8 +69,9 @@ public class PostController {
         // Bad case: 서버에서 -> 반드시 이렇게 할겁니다! fix
         //  -> 서버에서는 유연하게 대응하는 것이 좋습니다.
         //  -> 한 번에 일괄적으로 잘 처리되는 케이스가 없습니다 -> 잘 관리하는 형태가 중요합니다.
-        Long postId = postService.write(request);
-        return Map.of("postId", postId);
+        postService.write(request);
+//        Long postId = postService.write(request);
+//        return Map.of("postId", postId);
 //        return Map.of();
 
         //log.info("params{}", params.toString());

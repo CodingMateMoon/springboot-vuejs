@@ -15,7 +15,8 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public Long write(PostCreate postCreate) {
+    //public Long write(PostCreate postCreate) {
+    public void write(PostCreate postCreate) {
         // postCreate -> Entity
 //        Post post = new Post(postCreate.getTitle(), postCreate.getContent());
         Post post = Post.builder()
@@ -24,7 +25,6 @@ public class PostService {
                 .build();
 
         postRepository.save(post);
-
-        return post.getId();
+//        return post.getId();
     }
 }
