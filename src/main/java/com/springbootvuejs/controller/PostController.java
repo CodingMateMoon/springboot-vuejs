@@ -1,5 +1,6 @@
 package com.springbootvuejs.controller;
 
+import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.request.PostCreate;
 import com.springbootvuejs.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -91,5 +92,11 @@ public class PostController {
         String content = params.getContent();
         return "Hello World";
          */
+    }
+
+    @GetMapping("/posts/{postId}")
+    public Post get(@PathVariable(name = "postId") Long id) {
+        Post post = postService.get(id);
+        return post;
     }
 }
