@@ -50,7 +50,7 @@ class PostServiceTest {
     void getBoard() {
         // given
         Post requestPost = Post.builder()
-                .title("title")
+                .title("title1234567890")
                 .content("content")
                 .build();
         postRepository.save(requestPost);
@@ -60,7 +60,7 @@ class PostServiceTest {
         // then
         assertNotNull(post);
         assertEquals(1L, postRepository.count());
-        assertEquals("title", post.getTitle());
+        assertEquals("title1234567890", post.getTitle());
         assertEquals("content", post.getContent());
     }
 

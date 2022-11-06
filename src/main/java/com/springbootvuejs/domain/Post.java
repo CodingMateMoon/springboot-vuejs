@@ -26,4 +26,10 @@ public class Post {
         this.title = title;
         this.content = content;
     }
+
+    public String getTitle() {
+        // 서비스의 정책을 넣지마세요!!
+        //return this.title.substring(0, 10);
+        return this.title;
+    }
 }
