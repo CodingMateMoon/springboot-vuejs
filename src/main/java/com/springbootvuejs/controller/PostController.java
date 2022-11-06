@@ -2,6 +2,7 @@ package com.springbootvuejs.controller;
 
 import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.request.PostCreate;
+import com.springbootvuejs.response.PostResponse;
 import com.springbootvuejs.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,6 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class PostController {
-
 
     private final PostService postService;
 
@@ -95,8 +95,10 @@ public class PostController {
     }
 
     @GetMapping("/posts/{postId}")
-    public Post get(@PathVariable(name = "postId") Long id) {
-        Post post = postService.get(id);
+    public PostResponse get(@PathVariable(name = "postId") Long id) {
+        // Request 클래스
+        // Response 클래스
+        PostResponse post = postService.get(id);
         return post;
     }
 }

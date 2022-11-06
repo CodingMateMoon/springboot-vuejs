@@ -3,6 +3,7 @@ package com.springbootvuejs.service;
 import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.repository.PostRepository;
 import com.springbootvuejs.request.PostCreate;
+import com.springbootvuejs.response.PostResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -55,13 +56,13 @@ class PostServiceTest {
                 .build();
         postRepository.save(requestPost);
         // when
-        Post post = postService.get(requestPost.getId());
+        PostResponse postResponse = postService.get(requestPost.getId());
 
         // then
-        assertNotNull(post);
+        assertNotNull(postResponse);
         assertEquals(1L, postRepository.count());
-        assertEquals("title1234567890", post.getTitle());
-        assertEquals("content", post.getContent());
+        assertEquals("title12345", postResponse.getTitle());
+        assertEquals("content", postResponse.getContent());
     }
 
 }
