@@ -4,23 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.repository.PostRepository;
 import com.springbootvuejs.request.PostCreate;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.http.MediaType.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -158,6 +151,38 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.title").value("1234567890"))
 //                .andExpect(jsonPath("$.title").value("12345"))
                 .andExpect(jsonPath("$.content").value("content"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("글 여러개 조회")
+    void getBoardList() throws Exception {
+        // given
+        Post post1 = Post.builder()
+                .title("123456789012345")
+//                .title("12345")
+                .content("content")
+                .build();
+        postRepository.save(post1);
+
+        Post post2 = Post.builder()
+                .title("123456789012345")
+//                .title("12345")
+                .content("content")
+                .build();
+        postRepository.save(post2);
+
+        //expected
+        mockMvc.perform(get("/posts")
+                        .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                /*
+                 {id:..., title: ...}
+                 */
+                /*
+                  {id: ..., title: ...}, {id: ..., title: ...}
+                 */
                 .andDo(print());
     }
 

@@ -6,14 +6,10 @@ import com.springbootvuejs.response.PostResponse;
 import com.springbootvuejs.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 // RestController를 활용하면 @Controller, @ResponseBody 등 Controller보다 좀 더 편하게 web 관련처리를 할 수 있습니다.
 @Slf4j
@@ -93,12 +89,15 @@ public class PostController {
         return "Hello World";
          */
     }
+    // 여러 개의 글 조회 - 블로그 작성 목록 보기
 
     @GetMapping("/posts/{postId}")
     public PostResponse get(@PathVariable(name = "postId") Long id) {
-        // Request 클래스
-        // Response 클래스
-        PostResponse post = postService.get(id);
-        return post;
+        return postService.get(id);
+    }
+
+    @GetMapping("/posts")
+    public List<Post> getBoardList() {
+        return postService.getBoardList();
     }
 }
