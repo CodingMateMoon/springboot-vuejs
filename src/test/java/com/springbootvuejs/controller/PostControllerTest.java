@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -161,19 +162,19 @@ class PostControllerTest {
         Post post1 = Post.builder()
                 .title("123456789012345")
 //                .title("12345")
-                .content("content")
+                .content("content1")
                 .build();
         postRepository.save(post1);
 
         Post post2 = Post.builder()
                 .title("123456789012345")
 //                .title("12345")
-                .content("content")
+                .content("content2")
                 .build();
         postRepository.save(post2);
 
         //expected
-        mockMvc.perform(get("/posts")
+        mockMvc.perform(get("/board")
                         .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -183,6 +184,8 @@ class PostControllerTest {
                 /*
                   {id: ..., title: ...}, {id: ..., title: ...}
                  */
+                .andExpect(jsonPath("$.length()", is(2)))
+                .andExpect(jsonPath("$[0].id").value(post1.getId()))
                 .andDo(print());
     }
 

@@ -79,12 +79,12 @@ class PostServiceTest {
         postRepository.save(requestPost1);
 
         Post requestPost2 = Post.builder()
-                .title("title1")
-                .content("content1")
+                .title("title2")
+                .content("content2")
                 .build();
         postRepository.save(requestPost2);
         // when
-        List<Post> posts = postService.getBoardList();
+        List<PostResponse> posts = postService.getBoardList();
 
         //then
         assertEquals(2L, posts.size());

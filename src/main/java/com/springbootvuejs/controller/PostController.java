@@ -1,6 +1,5 @@
 package com.springbootvuejs.controller;
 
-import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.request.PostCreate;
 import com.springbootvuejs.response.PostResponse;
 import com.springbootvuejs.service.PostService;
@@ -96,8 +95,8 @@ public class PostController {
         return postService.get(id);
     }
 
-    @GetMapping("/posts")
-    public List<Post> getBoardList() {
+    @GetMapping("/board")
+    public List<PostResponse> getBoardList() {
         return postService.getBoardList();
     }
 }
