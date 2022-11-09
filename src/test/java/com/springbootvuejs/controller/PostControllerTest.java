@@ -160,15 +160,13 @@ class PostControllerTest {
     void getBoardList() throws Exception {
         // given
         Post post1 = Post.builder()
-                .title("123456789012345")
-//                .title("12345")
+                .title("title1")
                 .content("content1")
                 .build();
         postRepository.save(post1);
 
         Post post2 = Post.builder()
-                .title("123456789012345")
-//                .title("12345")
+                .title("title2")
                 .content("content2")
                 .build();
         postRepository.save(post2);
@@ -186,6 +184,8 @@ class PostControllerTest {
                  */
                 .andExpect(jsonPath("$.length()", is(2)))
                 .andExpect(jsonPath("$[0].id").value(post1.getId()))
+                .andExpect(jsonPath("$[0].title").value("title1"))
+                .andExpect(jsonPath("$[0].content").value("content1"))
                 .andDo(print());
     }
 
