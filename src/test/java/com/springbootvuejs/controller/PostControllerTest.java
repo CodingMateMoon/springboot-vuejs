@@ -159,17 +159,15 @@ class PostControllerTest {
     @DisplayName("글 여러개 조회")
     void getBoardList() throws Exception {
         // given
-        Post post1 = Post.builder()
+        Post post1 = postRepository.save(Post.builder()
                 .title("title1")
                 .content("content1")
-                .build();
-        postRepository.save(post1);
+                .build());
 
-        Post post2 = Post.builder()
+        Post post2 = postRepository.save(Post.builder()
                 .title("title2")
                 .content("content2")
-                .build();
-        postRepository.save(post2);
+                .build());
 
         //expected
         mockMvc.perform(get("/board")
@@ -186,6 +184,9 @@ class PostControllerTest {
                 .andExpect(jsonPath("$[0].id").value(post1.getId()))
                 .andExpect(jsonPath("$[0].title").value("title1"))
                 .andExpect(jsonPath("$[0].content").value("content1"))
+                .andExpect(jsonPath("$[1].id").value(post2.getId()))
+                .andExpect(jsonPath("$[1].title").value("title2"))
+                .andExpect(jsonPath("$[1].content").value("content2"))
                 .andDo(print());
     }
 

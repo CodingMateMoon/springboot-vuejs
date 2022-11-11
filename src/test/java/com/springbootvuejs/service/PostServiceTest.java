@@ -90,4 +90,26 @@ class PostServiceTest {
         assertEquals(2L, posts.size());
     }
 
+    @Test
+    @DisplayName("글 여러개 저장")
+    void saveBoardList() {
+        // given
+        postRepository.saveAll(List.of(
+                Post.builder()
+                        .title("title1")
+                        .content("content1")
+                        .build(),
+                Post.builder()
+                        .title("title2")
+                        .content("content2")
+                        .build()
+        ));
+
+        // when
+        List<PostResponse> posts = postService.getBoardList();
+
+        //then
+        assertEquals(2L, posts.size());
+    }
+
 }
