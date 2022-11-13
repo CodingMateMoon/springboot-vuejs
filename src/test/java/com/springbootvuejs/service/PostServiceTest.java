@@ -120,8 +120,8 @@ class PostServiceTest {
         // given
         List<Post> requestPosts = IntStream.range(1, 31)
                 .mapToObj(i -> Post.builder()
-                            .title("codingmate 제목 - " + i)
-                            .content("구글 - " + i)
+                            .title("codingmate 제목 " + i)
+                            .content("구글 " + i)
                             .build()
                 )
                 .collect(Collectors.toList());
@@ -129,7 +129,9 @@ class PostServiceTest {
         // when
         List<PostResponse> posts = postService.getBoardList(0);
         //then
-        assertEquals(2L, posts.size());
+        assertEquals(5L, posts.size());
+        assertEquals("codingmate 제목 30", posts.get(0).getTitle());
+        assertEquals("codingmate 제목 26", posts.get(4).getTitle());
     }
 
 }

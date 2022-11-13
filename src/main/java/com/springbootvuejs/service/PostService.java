@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class PostService {
 
     public List<PostResponse> getBoardList(int page) {
         // web -> page 1 요청이 왔을 때 내부적으로 0으로 부터 값을 넘겨서 데이터를 조회
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC,"id"));
         return postRepository.findAll(pageable).stream()
                 .map(PostResponse::new
                 )

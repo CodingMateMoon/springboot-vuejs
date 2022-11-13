@@ -12,6 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -189,5 +193,26 @@ class PostControllerTest {
                 .andExpect(jsonPath("$[1].content").value("content2"))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("글 여러개 조회")
+    void getBoardList2() throws Exception {
+        // given
+        List<Post> requestPosts = IntStream.range(1, 31)
+                .mapToObj(i -> Post.builder()
+                        .title("codingmate 제목 " + i)
+                        .content("구글 " + i)
+                        .build()
+                )
+                .collect(Collectors.toList());
+
+        //expected
+        mockMvc.perform(get("/board?page=1")
+                        .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+    
 
 }
