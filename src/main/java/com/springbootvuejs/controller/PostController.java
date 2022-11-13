@@ -97,6 +97,6 @@ public class PostController {
 
     @GetMapping("/board")
     public List<PostResponse> getBoardList() {
-        return postService.getBoardList();
+        return postService.getBoardList(1);
     }
 }

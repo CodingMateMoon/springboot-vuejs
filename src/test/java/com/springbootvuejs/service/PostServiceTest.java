@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -108,6 +110,24 @@ class PostServiceTest {
         // when
         List<PostResponse> posts = postService.getBoardList();
 
+        //then
+        assertEquals(2L, posts.size());
+    }
+
+    @Test
+    @DisplayName("글 1페이지 조회")
+    void getBoardPage() {
+        // given
+        List<Post> requestPosts = IntStream.range(1, 31)
+                .mapToObj(i -> Post.builder()
+                            .title("codingmate 제목 - " + i)
+                            .content("구글 - " + i)
+                            .build()
+                )
+                .collect(Collectors.toList());
+        postRepository.saveAll(requestPosts);
+        // when
+        List<PostResponse> posts = postService.getBoardList(0);
         //then
         assertEquals(2L, posts.size());
     }
