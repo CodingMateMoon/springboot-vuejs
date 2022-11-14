@@ -205,9 +205,11 @@ class PostControllerTest {
                         .build()
                 )
                 .collect(Collectors.toList());
+        postRepository.saveAll(requestPosts);
 
         //expected
-        mockMvc.perform(get("/board?page=1")
+//        mockMvc.perform(get("/board?page=1&sort=id,desc&size=5")
+        mockMvc.perform(get("/board?page=1&sort=id,desc&size=15")
                         .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())

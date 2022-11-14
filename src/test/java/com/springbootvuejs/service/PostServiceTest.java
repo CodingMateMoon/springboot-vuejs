@@ -10,6 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -126,8 +129,11 @@ class PostServiceTest {
                 )
                 .collect(Collectors.toList());
         postRepository.saveAll(requestPosts);
+
+        Pageable pageable = PageRequest.of(0, 5, Sort.Direction.DESC, "id");
+
         // when
-        List<PostResponse> posts = postService.getBoardList(0);
+        List<PostResponse> posts = postService.getBoardList(pageable);
         //then
         assertEquals(5L, posts.size());
         assertEquals("codingmate 제목 30", posts.get(0).getTitle());
