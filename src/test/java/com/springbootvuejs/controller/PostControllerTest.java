@@ -209,10 +209,15 @@ class PostControllerTest {
 
         //expected
 //        mockMvc.perform(get("/board?page=1&sort=id,desc&size=5")
-        mockMvc.perform(get("/board?page=1&sort=id,desc&size=15")
+        // 쿼리 파라미터로 title 정렬 요청했을 때 index가 안 걸려있는 경우 속도가 느려질 수 있습니다.
+        mockMvc.perform(get("/board?page=1&sort=id,desc")
                         .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", is(5)))
+                .andExpect(jsonPath("$[0].id").value(30))
+                .andExpect(jsonPath("$[0].title").value("codingmate 제목 30"))
+                .andExpect(jsonPath("$[0].content").value("구글 30"))
                 .andDo(print());
     }
     
