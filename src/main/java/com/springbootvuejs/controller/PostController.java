@@ -98,7 +98,7 @@ public class PostController {
 
     @GetMapping("/board")
 //    public List<PostResponse> getBoardList(@PageableDefault(size=5) Pageable pageable) {
-    public List<PostResponse> getBoardList(@RequestParam PostSearch postSearch) {
+    public List<PostResponse> getBoardList(@ModelAttribute PostSearch postSearch) {
         return postService.getBoardList(postSearch);
     }
 }
