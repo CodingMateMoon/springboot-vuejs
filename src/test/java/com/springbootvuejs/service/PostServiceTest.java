@@ -3,6 +3,7 @@ package com.springbootvuejs.service;
 import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.repository.PostRepository;
 import com.springbootvuejs.request.PostCreate;
+import com.springbootvuejs.request.PostSearch;
 import com.springbootvuejs.response.PostResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,9 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -117,11 +115,11 @@ class PostServiceTest {
         assertEquals(2L, posts.size());
     }
 
-    @Test
+    /*@Test
     @DisplayName("글 1페이지 조회")
-    void getBoardPage() {
+    void getBoardPage_backup() {
         // given
-        List<Post> requestPosts = IntStream.range(1, 20)
+        List<Post> requestPosts = IntStream.range(0, 20)
                 .mapToObj(i -> Post.builder()
                             .title("codingmate 제목 " + i)
                             .content("구글 " + i)
@@ -136,7 +134,32 @@ class PostServiceTest {
         List<PostResponse> posts = postService.getBoardList(pageable);
         //then
         assertEquals(10L, posts.size());
-        assertEquals("codingmate 제목 1", posts.get(0).getTitle());
+        assertEquals("codingmate 제목 19", posts.get(0).getTitle());
+//        assertEquals("codingmate 제목 26", posts.get(4).getTitle());
+    }*/
+
+    @Test
+    @DisplayName("글 1페이지 조회")
+    void getBoardPageWithPostSearch() {
+        // given
+        List<Post> requestPosts = IntStream.range(0, 20)
+                .mapToObj(i -> Post.builder()
+                        .title("codingmate 제목 " + i)
+                        .content("구글 " + i)
+                        .build()
+                )
+                .collect(Collectors.toList());
+        postRepository.saveAll(requestPosts);
+
+        PostSearch postSearch = PostSearch.builder()
+                .page(1)
+                .size(10)
+                .build();
+        // when
+        List<PostResponse> posts = postService.getBoardList(postSearch);
+        //then
+        assertEquals(10L, posts.size());
+        assertEquals("codingmate 제목 19", posts.get(0).getTitle());
 //        assertEquals("codingmate 제목 26", posts.get(4).getTitle());
     }
 
