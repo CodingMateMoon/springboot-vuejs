@@ -159,7 +159,7 @@ class PostServiceTest {
         List<PostResponse> posts = postService.getBoardList(postSearch);
         //then
         assertEquals(10L, posts.size());
-        assertEquals("codingmate 제목 19", posts.get(0).getTitle());
+        assertEquals("codingmate 제목 9", posts.get(0).getTitle());
 //        assertEquals("codingmate 제목 26", posts.get(4).getTitle());
     }
 

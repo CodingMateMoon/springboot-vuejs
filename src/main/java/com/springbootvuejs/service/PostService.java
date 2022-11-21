@@ -59,7 +59,7 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public List<PostResponse> getBoardList_backup(Pageable pageable) {
+    public List<PostResponse> getList(Pageable pageable) {
         // web -> page 1 요청이 왔을 때 내부적으로 0으로 부터 값을 넘겨서 데이터를 조회
 //        Pageable pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC,"id"));
         return postRepository.findAll(pageable).stream()

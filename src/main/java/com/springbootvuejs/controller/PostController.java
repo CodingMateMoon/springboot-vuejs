@@ -6,6 +6,8 @@ import com.springbootvuejs.response.PostResponse;
 import com.springbootvuejs.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -96,8 +98,12 @@ public class PostController {
         return postService.get(id);
     }
 
+    @GetMapping("/list")
+    public List<PostResponse> getList(@PageableDefault(size=5) Pageable pageable) {
+        return postService.getList(pageable);
+    }
+
     @GetMapping("/board")
-//    public List<PostResponse> getBoardList(@PageableDefault(size=5) Pageable pageable) {
     public List<PostResponse> getBoardList(@ModelAttribute PostSearch postSearch) {
         return postService.getBoardList(postSearch);
     }

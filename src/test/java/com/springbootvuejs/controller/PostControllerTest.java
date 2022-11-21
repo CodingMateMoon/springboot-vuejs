@@ -174,7 +174,7 @@ class PostControllerTest {
                 .build());
 
         //expected
-        mockMvc.perform(get("/board")
+        mockMvc.perform(get("/list")
                         .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -195,7 +195,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 여러개 조회")
+    @DisplayName("글 여러개 조회2")
     void getBoardList2() throws Exception {
         // given
         List<Post> requestPosts = IntStream.range(1, 31)
@@ -210,7 +210,7 @@ class PostControllerTest {
         //expected
 //        mockMvc.perform(get("/board?page=1&sort=id,desc&size=5")
         // 쿼리 파라미터로 title 정렬 요청했을 때 index가 안 걸려있는 경우 속도가 느려질 수 있습니다.
-        mockMvc.perform(get("/board?page=1&size=10&sort=id,desc")
+        mockMvc.perform(get("/list?page=1&size=10&sort=id,desc")
                         .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
