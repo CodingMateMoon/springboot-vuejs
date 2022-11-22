@@ -1,6 +1,7 @@
 package com.springbootvuejs.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springbootvuejs.config.DatabaseCleanup;
 import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.repository.PostRepository;
 import com.springbootvuejs.request.PostCreate;
@@ -38,9 +39,13 @@ class PostControllerTest {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private DatabaseCleanup databaseCleanup;
+
     @BeforeEach
     void clean() {
-        postRepository.deleteAll();
+//        postRepository.deleteAll();
+        databaseCleanup.execute();
     }
 
     @Test
@@ -197,6 +202,7 @@ class PostControllerTest {
     @Test
     @DisplayName("글 여러개 조회2")
     void getBoardList2() throws Exception {
+        postRepository.deleteAll();
         // given
         List<Post> requestPosts = IntStream.range(1, 31)
                 .mapToObj(i -> Post.builder()

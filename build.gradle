@@ -34,6 +34,7 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation("com.google.guava:guava:31.1-jre") // 유효성 체크, CaseFormat 등 기능 활용에 쓰이는 google 라이브러리
 }
 
 tasks.named('test') {
