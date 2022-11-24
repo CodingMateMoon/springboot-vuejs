@@ -3,6 +3,7 @@ package com.springbootvuejs.service;
 import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.repository.PostRepository;
 import com.springbootvuejs.request.PostCreate;
+import com.springbootvuejs.request.PostEdit;
 import com.springbootvuejs.request.PostSearch;
 import com.springbootvuejs.response.PostResponse;
 import lombok.RequiredArgsConstructor;
@@ -80,4 +81,13 @@ public class PostService {
     Controller -> WebPostService(Response 서비스 호출 담당) -> Repository
                   PostService(외부 다른 서비스와 통신하는 서비스)
      */
+    public void edit(Long id, PostEdit postEdit) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+        post.setTitle(postEdit.getTitle());
+        post.setContent(postEdit.getContent());
+
+        postRepository.save(post);
+    }
 }

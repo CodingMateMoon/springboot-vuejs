@@ -3,6 +3,7 @@ package com.springbootvuejs.service;
 import com.springbootvuejs.domain.Post;
 import com.springbootvuejs.repository.PostRepository;
 import com.springbootvuejs.request.PostCreate;
+import com.springbootvuejs.request.PostEdit;
 import com.springbootvuejs.request.PostSearch;
 import com.springbootvuejs.response.PostResponse;
 import org.junit.jupiter.api.Assertions;
@@ -161,6 +162,30 @@ class PostServiceTest {
         assertEquals(10L, posts.size());
         assertEquals("codingmate 제목 9", posts.get(0).getTitle());
 //        assertEquals("codingmate 제목 26", posts.get(4).getTitle());
+    }
+
+    @Test
+    @DisplayName("글 제목 수정")
+    void updateBoardTitle() {
+        //given
+        Post post = Post.builder()
+                .title("codingmatemoon")
+                .content("구글")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("codingmatesun")
+                .build();
+
+        // when
+        postService.edit(post.getId(),postEdit);
+
+        //then
+        Post changedPost = postRepository.findById(post.getId())
+                .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+        assertEquals("codingmatesun", changedPost.getTitle());
     }
 
 }
