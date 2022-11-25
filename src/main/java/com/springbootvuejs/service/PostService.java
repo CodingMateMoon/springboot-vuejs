@@ -1,6 +1,7 @@
 package com.springbootvuejs.service;
 
 import com.springbootvuejs.domain.Post;
+import com.springbootvuejs.domain.PostEditor;
 import com.springbootvuejs.repository.PostRepository;
 import com.springbootvuejs.request.PostCreate;
 import com.springbootvuejs.request.PostEdit;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -81,13 +83,33 @@ public class PostService {
     Controller -> WebPostService(Response 서비스 호출 담당) -> Repository
                   PostService(외부 다른 서비스와 통신하는 서비스)
      */
+    @Transactional
     public void edit(Long id, PostEdit postEdit) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
 
+        PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
+
+        if (postEdit.getTitle() != null) {
+            editorBuilder.title(postEdit.getTitle());
+        }
+
+        if (postEdit.getContent() != null) {
+            editorBuilder.content(postEdit.getContent());
+        }
+        post.edit(editorBuilder.build());
+        /*
+        PostEditor postEditor = editorBuilder.title(postEdit.getTitle())
+                .content(postEdit.getContent())
+                .build();
+
+         */
+
+        /*
+        post.change(postEdit.getContent(),postEdit.getTitle());
         post.setTitle(postEdit.getTitle());
         post.setContent(postEdit.getContent());
-
         postRepository.save(post);
+         */
     }
 }

@@ -30,4 +30,19 @@ public class Post {
         //return this.title.substring(0, 10);
         return this.title;
     }
+
+/*    public void change(String content, String title) {
+        this.title = title;
+        this.content = content;
+    }*/
+
+    public PostEditor.PostEditorBuilder toEditor() {
+        return PostEditor.builder().title(title)
+                .content(content);
+    }
+
+    public void edit(PostEditor postEditor) {
+        title = postEditor.getTitle();
+        content = postEditor.getContent();
+    }
 }
