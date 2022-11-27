@@ -90,6 +90,8 @@ public class PostService {
 
         PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
 
+        post.edit(editorBuilder.build());
+        /*
         if (postEdit.getTitle() != null) {
             editorBuilder.title(postEdit.getTitle());
         }
@@ -97,7 +99,7 @@ public class PostService {
         if (postEdit.getContent() != null) {
             editorBuilder.content(postEdit.getContent());
         }
-        post.edit(editorBuilder.build());
+        */
         /*
         PostEditor postEditor = editorBuilder.title(postEdit.getTitle())
                 .content(postEdit.getContent())

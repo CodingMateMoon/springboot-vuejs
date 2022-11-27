@@ -1,6 +1,7 @@
 package com.springbootvuejs.controller;
 
 import com.springbootvuejs.request.PostCreate;
+import com.springbootvuejs.request.PostEdit;
 import com.springbootvuejs.request.PostSearch;
 import com.springbootvuejs.response.PostResponse;
 import com.springbootvuejs.service.PostService;
@@ -106,5 +107,10 @@ public class PostController {
     @GetMapping("/board")
     public List<PostResponse> getBoardList(@ModelAttribute PostSearch postSearch) {
         return postService.getBoardList(postSearch);
+    }
+
+    @PatchMapping("/posts/{postId}")
+    public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
+        postService.edit(postId, request);
     }
 }

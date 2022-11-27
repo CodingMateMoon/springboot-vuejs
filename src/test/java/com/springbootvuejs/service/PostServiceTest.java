@@ -177,6 +177,7 @@ class PostServiceTest {
 
         PostEdit postEdit = PostEdit.builder()
                 .title("codingmatesun")
+                .content("구글")
                 .build();
 
         // when
@@ -189,8 +190,8 @@ class PostServiceTest {
     }
 
     @Test
-    @DisplayName("글 제목 수정")
-    void updateBoardTitleTest() {
+    @DisplayName("글 내용 수정")
+    void updateBoardContent() {
         //given
         Post post = Post.builder()
                 .title("codingmatemoon")
@@ -200,7 +201,8 @@ class PostServiceTest {
         postRepository.save(post);
 
         PostEdit postEdit = PostEdit.builder()
-                .title("codingmatesun")
+                .title("codingmatemoon")
+                .content("IBM")
                 .build();
 
         // when
@@ -209,8 +211,7 @@ class PostServiceTest {
         //then
         Post changedPost = postRepository.findById(post.getId())
                 .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
-        assertEquals("codingmatesun", changedPost.getTitle());
-        assertEquals("구글", changedPost.getContent());
+        assertEquals("IBM", changedPost.getContent());
     }
 
 }
