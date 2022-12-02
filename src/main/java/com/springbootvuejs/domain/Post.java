@@ -37,7 +37,8 @@ public class Post {
     }*/
 
     public PostEditor.PostEditorBuilder toEditor() {
-        return PostEditor.builder().title(title)
+        return PostEditor.builder()
+                .title(title)
                 .content(content);
     }
 
@@ -45,4 +46,10 @@ public class Post {
         title = postEditor.getTitle();
         content = postEditor.getContent();
     }
+
+    public void simpleEdit(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
 }

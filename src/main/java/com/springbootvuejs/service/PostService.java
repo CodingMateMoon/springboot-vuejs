@@ -90,7 +90,11 @@ public class PostService {
 
         PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
 
-        post.edit(editorBuilder.build());
+        PostEditor postEditor= editorBuilder.title(postEdit.getTitle())
+                .content(postEdit.getContent())
+                .build();
+
+        post.edit(postEditor);
         /*
         if (postEdit.getTitle() != null) {
             editorBuilder.title(postEdit.getTitle());
@@ -113,5 +117,13 @@ public class PostService {
         post.setContent(postEdit.getContent());
         postRepository.save(post);
          */
+    }
+
+    @Transactional
+    public void simpleEdit(Long id, PostEdit postEdit) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+        post.simpleEdit(postEdit.getTitle(), postEdit.getContent());
     }
 }
