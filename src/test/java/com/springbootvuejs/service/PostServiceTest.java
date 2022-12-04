@@ -240,4 +240,23 @@ class PostServiceTest {
         assertEquals("IBM", changedPost.getContent());
     }
 
+    @Test
+    @DisplayName("게시글삭제")
+    void 게시글_삭제() {
+        // given
+        Post post = Post.builder()
+                .title("codingmatemoon")
+                .content("구글")
+                .build();
+
+        postRepository.save(post);
+
+        // when
+        postService.delete(post.getId());
+
+        // then
+        Assertions.assertEquals(0, postRepository.count());
+    }
+
+
 }
