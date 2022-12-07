@@ -1,6 +1,7 @@
 package com.springbootvuejs.service;
 
 import com.springbootvuejs.domain.Post;
+import com.springbootvuejs.exception.PostNotFound;
 import com.springbootvuejs.repository.PostRepository;
 import com.springbootvuejs.request.PostCreate;
 import com.springbootvuejs.request.PostEdit;
@@ -17,8 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PostServiceTest {
@@ -258,5 +258,71 @@ class PostServiceTest {
         Assertions.assertEquals(0, postRepository.count());
     }
 
+    @Test
+    @DisplayName("글 1개 조회- 존재하지 않는 글 ")
+    void getBoardTest() {
+        // given
+        Post requestPost = Post.builder()
+                .title("title1234567890")
+                .content("content")
+                .build();
+        postRepository.save(requestPost);
+
+        // post.getId() // primary_id = 1. 저장된 값이 증가하면 1 보장 불가
+
+        // expected
+        assertThrows(PostNotFound.class, () -> {
+            postService.get(requestPost.getId() + 1L);
+        });
+        /*IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            postService.get(requestPost.getId() + 1);
+        }, "예외처리가 잘못 되었어요,");
+
+        Assertions.assertEquals("존재하지 않는 글입니다.", e.getMessage());*/
+    }
+
+    @Test
+    @DisplayName("게시글삭제 존재하지 않는 글 ")
+    void 게시글_삭제_존재하지_않는_글() {
+        // given
+        Post post = Post.builder()
+                .title("codingmatemoon")
+                .content("구글")
+                .build();
+
+        postRepository.save(post);
+
+        // when
+        postService.delete(post.getId() +1 );
+
+        // then
+//        Assertions.assertEquals(0, postRepository.count());
+        assertThrows(PostNotFound.class, () -> {
+            postService.delete(post.getId() + 1L);
+        });
+    }
+
+    @Test
+    @DisplayName("글 제목 수정 - 존재하지 않는 글")
+    void updateBoardTitleTest() {
+        //given
+        Post post = Post.builder()
+                .title("codingmatemoon")
+                .content("구글")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("codingmatesun")
+                .content("구글")
+                .build();
+
+        //expected
+        assertThrows(PostNotFound.class, () -> {
+            postService.edit(post.getId() + 1, postEdit);
+        });
+
+    }
 
 }
