@@ -1,5 +1,6 @@
 package com.springbootvuejs.controller;
 
+import com.springbootvuejs.exception.PostNotFound;
 import com.springbootvuejs.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,15 +33,15 @@ public class ExceptionController {
     }
 
     // listener 메소드
-//    @ResponseBody
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    @ExceptionHandler(PostNotFound.class)
-//    public ErrorResponse postNotFound(PostNotFound e) {
-//        ErrorResponse response = ErrorResponse.builder()
-//                .code("404")
-//                .message(e.getMessage())
-//                .build();
-//
-//        return response;
-//    }
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(PostNotFound.class)
+    public ErrorResponse postNotFound(PostNotFound e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code("404")
+                .message(e.getMessage())
+                .build();
+
+        return response;
+    }
 }
