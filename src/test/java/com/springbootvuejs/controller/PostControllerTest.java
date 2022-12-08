@@ -296,4 +296,16 @@ class PostControllerTest {
 
     }
 
+    @Test
+    @DisplayName("존재하지 않는 게시글 조회")
+    void getBoardNotExists() throws Exception {
+
+        //expected
+        mockMvc.perform(delete("/posts/{postId}", 1L)
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+    }
+
 }
