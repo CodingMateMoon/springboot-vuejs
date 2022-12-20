@@ -325,4 +325,22 @@ class PostControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @DisplayName("게시글 작성 시 제목에 '바보'는 포함될 수 없습니다.")
+    void checkFoolWord() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
+        PostCreate request = PostCreate.builder()
+                .title("나는 바보입니다.")
+                .content("구글")
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
+
+        //when
+        mockMvc.perform(post("/posts")
+                        .contentType(APPLICATION_JSON)
+                        .content(json)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

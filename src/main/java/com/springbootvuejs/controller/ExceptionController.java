@@ -1,6 +1,6 @@
 package com.springbootvuejs.controller;
 
-import com.springbootvuejs.exception.PostNotFound;
+import com.springbootvuejs.exception.HodologException;
 import com.springbootvuejs.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -35,8 +35,8 @@ public class ExceptionController {
     // listener 메소드
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(PostNotFound.class)
-    public ErrorResponse postNotFound(PostNotFound e) {
+    @ExceptionHandler(HodologException.class)
+    public ErrorResponse hodologException(HodologException e) {
         ErrorResponse response = ErrorResponse.builder()
                 .code("404")
                 .message(e.getMessage())
