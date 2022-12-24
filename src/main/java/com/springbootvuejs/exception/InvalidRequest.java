@@ -6,4 +6,9 @@ public class InvalidRequest extends HodologException{
     public InvalidRequest() {
         super(MESSAGE);
     }
+
+    @Override
+    public int getStatusCode() {
+        return 400;
+    }
 }

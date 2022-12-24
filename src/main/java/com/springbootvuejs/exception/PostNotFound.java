@@ -11,4 +11,9 @@ public class PostNotFound extends HodologException{
 //    public PostNotFound(Throwable cause) {
 //        super(MESSAGE, cause);
 //    }
+
+    @Override
+    public int getStatusCode() {
+        return 404;
+    }
 }

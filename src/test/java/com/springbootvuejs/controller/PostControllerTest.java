@@ -297,6 +297,25 @@ class PostControllerTest {
     }
 
     @Test
+    @DisplayName("게시글 작성 시 제목에 '바보'는 포함될 수 없습니다.")
+    void checkFoolWord() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
+        PostCreate request = PostCreate.builder()
+                .title("나는 바보입니다.")
+                .content("구글")
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
+
+        //when
+        mockMvc.perform(post("/posts")
+                        .contentType(APPLICATION_JSON)
+                        .content(json)
+                )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
     @DisplayName("존재하지 않는 게시글 조회")
     void getBoardNotExists() throws Exception {
 
@@ -322,25 +341,6 @@ class PostControllerTest {
                         .content(objectMapper.writeValueAsString(postEdit))
                 )
                 .andExpect(status().isNotFound())
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("게시글 작성 시 제목에 '바보'는 포함될 수 없습니다.")
-    void checkFoolWord() throws Exception {  // 가능하면 application/json을 권장합니다. (기존 application/x-www-form-urlencoded)
-        PostCreate request = PostCreate.builder()
-                .title("나는 바보입니다.")
-                .content("구글")
-                .build();
-
-        String json = objectMapper.writeValueAsString(request);
-
-        //when
-        mockMvc.perform(post("/posts")
-                        .contentType(APPLICATION_JSON)
-                        .content(json)
-                )
-                .andExpect(status().isOk())
                 .andDo(print());
     }
 }
