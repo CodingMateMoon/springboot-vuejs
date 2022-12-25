@@ -293,7 +293,7 @@ class PostServiceTest {
         postRepository.save(post);
 
         // when
-        postService.delete(post.getId() +1 );
+//        postService.delete(post.getId() +1 );
 
         // then
 //        Assertions.assertEquals(0, postRepository.count());

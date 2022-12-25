@@ -1,0 +1,16 @@
+= codingmatemoon API
+:toc:
+
+== 글 단건 조회
+
+=== 요청
+include::{snippets}/index/curl-request.adoc[]
+
+=== 응답
+include::{snippets}/index/http-request.adoc[]
+
+=== curl
+include::{snippets}/index/http-response.adoc[]
+
+=== httpie
+include::{snippets}/index/httpie-request.adoc[]
