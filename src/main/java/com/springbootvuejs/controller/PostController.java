@@ -1,6 +1,5 @@
 package com.springbootvuejs.controller;
 
-import com.springbootvuejs.exception.InvalidRequest;
 import com.springbootvuejs.request.PostCreate;
 import com.springbootvuejs.request.PostEdit;
 import com.springbootvuejs.request.PostSearch;
@@ -70,9 +69,8 @@ public class PostController {
         // Bad case: 서버에서 -> 반드시 이렇게 할겁니다! fix
         //  -> 서버에서는 유연하게 대응하는 것이 좋습니다.
         //  -> 한 번에 일괄적으로 잘 처리되는 케이스가 없습니다 -> 잘 관리하는 형태가 중요합니다.
-        if (request.getTitle().contains("바보")) {
-            throw new InvalidRequest();
-        }
+
+        request.validate();
         postService.write(request);
 //        Long postId = postService.write(request);
 //        return Map.of("postId", postId);
